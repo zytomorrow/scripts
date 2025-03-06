@@ -7,6 +7,13 @@
 ql repo https://github.com/zytomorrow/scripts.git 
 ```
 
+## 依赖情况
+
+### python
+
+- requests
+
+
 ## 脚本列表
 
 -  [PT_attendance.py](./PT_attendance.py) PT站点签到
