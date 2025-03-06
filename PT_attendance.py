@@ -13,7 +13,7 @@ PT站点签到脚本
     6. 改进跨平台文件创建
 
 new Env('PT签到');
-0 */6 * * * PT_attendance.py
+0 */1 * * * PT_attendance.py
 """
 
 import os
@@ -256,7 +256,7 @@ def run():
                 '• 公告：<ul>' + ''.join([f'<li>{date} - {content}</li>' for date, content in basic_info["notices"]]) + '</ul><hr>'
             ])
         else:
-            result.append(f'<h2 style="color:red">{pt_name} 签到异常</h2>')
+            result.append(f'<h2 style="color:red">{pt_name} 签到异常</h2><hr>')
     
     result.insert(0, generate_report(detail))
     # 更新JSON文件
