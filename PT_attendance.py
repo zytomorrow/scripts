@@ -260,7 +260,7 @@ def run():
     
     result.insert(0, generate_report(detail))
     # 更新JSON文件
-    with open('PT_attendance.json', 'w') as f:
+    with open('PT_attendance.json', 'w', encoding='utf8') as f:
         json.dump(detail, f, indent=4)
 
     if need_push:
