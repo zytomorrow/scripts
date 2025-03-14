@@ -18,3 +18,4 @@ ql repo https://github.com/zytomorrow/scripts.git
 
 - [PT_attendance.py](./PT_attendance.py) PT站点签到
 - [FN_attendance.py](./FN_attendance.py) 飞牛论坛签到
+- [lottery_check.py](./lottery_check.py) 彩票监测
