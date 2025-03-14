@@ -64,21 +64,24 @@ class LotteryChecker:
                     'total_rewards': 0,
                     'max_reward': {'date': '', 'level': '', 'money': 0},
                     'last_draw_date': '0000-00-00',
-                    'last_check_date': '0000-00-00'
+                    'last_check_date': '0000-00-00',
+                    'date_info': {'last_push_date': '0000-00-00'}
                 },
                 '3d': {
                     'history': {'lottery_numbers': [], 'rewards': {}},
                     'total_rewards': 0,
                     'max_reward': {'date': '', 'level': '', 'money': 0},
                     'last_draw_date': '0000-00-00',
-                    'last_check_date': '0000-00-00'
+                    'last_check_date': '0000-00-00',
+                    'date_info': {'last_push_date': '0000-00-00'}
                 },
                 'kl8': {
                     'history': {'lottery_numbers': [], 'rewards': {}},
                     'total_rewards': 0,
                     'max_reward': {'date': '', 'level': '', 'money': 0},
                     'last_draw_date': '0000-00-00',
-                    'last_check_date': '0000-00-00'
+                    'last_check_date': '0000-00-00',
+                    'date_info': {'last_push_date': '0000-00-00'}
                 }
             }
         }
@@ -302,7 +305,11 @@ class LotteryChecker:
         if prize_level == "未中奖":
             return 0
         # 替换中文数字为阿拉伯数字
-        prize_level = prize_level.replace("一", "1").replace("二", "2").replace("三", "3").replace("四", "4").replace("五", "5").replace("六", "6")[0]
+        prize_level = prize_level.replace(
+            "一", "1"
+        ).replace("二", "2").replace("三", "3").replace(
+            "四", "4"
+        ).replace("五", "5").replace("六", "6")[0]
 
         try:
             prize_info = next(
@@ -422,42 +429,20 @@ def check_lottery(lottery_type: str, numbers: List[str], checker: LotteryChecker
 
 
 def generate_html_report(results):
-    html_content = """
-    <body>
-        <h1>彩票检查报告</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>彩票类型</th>
-                    <th>开奖日期</th>
-                    <th>中奖号码</th>
-                    <th>用户号码</th>
-                    <th>中奖结果</th>
-                    <th>中奖金额</th>
-                </tr>
-            </thead>
-            <tbody>
-    """
+    html_content = []
 
     for result in results:
-        html_content += f"""
-            <tr>
-                <td>{result['lottery_type']}</td>
-                <td>{result['date']}</td>
-                <td>{', '.join(result['winning_numbers'])}</td>
-                <td>{', '.join(result['my_numbers'])}</td>
-                <td>{result['prize_level']}</td>
-                <td>{result['prize_amount']}元</td>
-            </tr>
-        """
+        html_content.extend([
+            f"<h2 style='color: #4CAF50; text-align: center;'>{result['lottery_type'].upper()} 检查结果</h2>",
+            f"• 开奖日期: {result['date']}<br>",
+            f"• 中奖号码: {', '.join(result['winning_numbers'])}<br>",
+            f"• 用户号码: {', '.join(result['my_numbers'])}<br>",
+            f"• 中奖结果: {result['prize_level']}<br>",
+            f"• 中奖金额: {result['prize_amount']}元<br>",
+            "<hr>"
+        ])
 
-    html_content += """
-            </tbody>
-        </table>
-    </body>
-    """
-    return html_content
-
+    return ''.join(html_content)
 
 def run():
     """主函数"""
@@ -484,9 +469,28 @@ def run():
     # 生成HTML报告
     html_report = generate_html_report(results)
 
-    # 使用QLAPI.notify发送报告
+    # 检查是否已经推送
+    current_date = datetime.now().strftime('%Y-%m-%d')
+
+    # 在成功推送后更新最后推送日期
     try:
-        QLAPI.notify("彩票检查报告", html_report)
+        with open(JSON_FILE_NAME, 'r+', encoding='utf-8') as f:
+            data = json.load(f)
+            # 确保 `date_info` 存在
+            if 'date_info' not in data:
+                data['date_info'] = {'last_push_date': '0000-00-00'}
+            last_push_date = data['date_info'].get('last_push_date', '0000-00-00')
+
+            if last_push_date == current_date:
+                logger.info("今天已经推送过彩票检查报告，不再重复推送。")
+                return
+
+            QLAPI.notify("彩票检查报告", html_report)
+            # 更新最后推送日期
+            data['date_info']['last_push_date'] = current_date
+            f.seek(0)
+            json.dump(data, f, indent=2)
+            f.truncate()
     except Exception as e:
         logger.error(f"发送彩票检查报告失败: {str(e)}")
 
