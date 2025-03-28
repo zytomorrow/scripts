@@ -3,7 +3,11 @@
 """
 PT站点签到脚本
 
-## 20240306
+## 20250328
+    新增站点:
+    1. lemonhd.net
+
+## 20250306
     优化内容：
     1. 增强正则匹配健壮性
     2. 优化JSON文件初始化逻辑
@@ -53,6 +57,11 @@ PT = {
         'env': 'AFUN_cookie',
         'attendance_url': 'https://www.ptlover.cc/attendance.php',
         'index_url': "https://www.ptlover.cc/index.php"
+    },
+    'LEMONHD': {
+        'env': 'LEMONHD_cookie',
+        'attendance_url': 'https://lemonhd.net/attendance.php',
+        'index_url': "https://lemonhd.net/index.php"
     }
 }
 
