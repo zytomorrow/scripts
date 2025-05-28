@@ -67,7 +67,7 @@ PT = {
         'env': 'LEMONHD_cookie',
         'attendance_url': 'https://lemonhd.net/attendance.php',
         'index_url': "https://lemonhd.net/index.php"
-    }，
+    },
     'PTSKIT': {
         'env': 'PTSKIT_cookie',
         'attendance_url': 'https://www.ptskit.com/attendance.php',
