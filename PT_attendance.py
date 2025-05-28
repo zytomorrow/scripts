@@ -3,6 +3,10 @@
 """
 PT站点签到脚本
 
+## 20250528
+    新增站点：
+    1. ptskit.com
+
 ## 20250328
     新增站点:
     1. lemonhd.net
@@ -63,6 +67,11 @@ PT = {
         'env': 'LEMONHD_cookie',
         'attendance_url': 'https://lemonhd.net/attendance.php',
         'index_url': "https://lemonhd.net/index.php"
+    }，
+    'PTSKIT': {
+        'env': 'PTSKIT_cookie',
+        'attendance_url': 'https://www.ptskit.com/attendance.php',
+        'index_url': "https://www.ptskit.com/index.php"
     }
 }
 
