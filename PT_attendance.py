@@ -72,6 +72,11 @@ PT = {
         'env': 'PTSKIT_cookie',
         'attendance_url': 'https://www.ptskit.com/attendance.php',
         'index_url': "https://www.ptskit.com/index.php"
+    },
+    'BTSCHOOL': {
+        'env': 'BTSCHOOL_cookie',
+        'attendance_url': 'https://pt.btschool.club/index.php?action=addbonus',
+        'index_url': 'https://pt.btschool.club/index.php',
     }
 }
 
